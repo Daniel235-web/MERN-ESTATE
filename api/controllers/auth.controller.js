@@ -8,7 +8,7 @@ export const signup = async (req, res, next) => {
 
   // Check if the password is empty
   if (!password) {
-    const error = new Error("Password can't be empty");
+    const error = new Error("credentials can't be empty");
     error.statusCode = 400;
     return next(error);
   }
