@@ -2,16 +2,25 @@ import User from '../models/user.model.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 
-
 export const signup = async (req, res, next) => {
-  const {username, email, password} = req.body;
-  const hashedpassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({username, email, password: hashedpassword });
+  const { username, email, password } = req.body;
+
+  // Check if the password is empty
+  if (!password) {
+    const error = new Error("Password can't be empty");
+    error.statusCode = 400;
+    return next(error);
+  }
+
+  // Hash the password
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+  
+  const newUser = new User({ username, email, password: hashedPassword });
+  
   try {
     await newUser.save();
-  res.status(201).json('User created successfully!');
+    res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     next(error);
   }
-  
 };
