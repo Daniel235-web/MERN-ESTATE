@@ -8,11 +8,9 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData(
-      {
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
+   setFormData((currentState) => ({
+    ...currentState, [e.target.id]: e.target.value
+   }))
     
   };
   const handleSubmit = async (e) => {
@@ -30,7 +28,7 @@ export default function SignUp() {
     console.log(data);
     if(data.success === false) {
       setLoading(false);
-      setError(data.message);
+      setError(data.message);// this error message is coming from the middleware from the index.js file
       
       return;
     }
